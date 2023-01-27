@@ -16,12 +16,19 @@ impl Problem for GravitationalPotential {
     }
 
     fn right_integral<BFn: BaseFunction>(&self, x: f64, v: &BFn) -> f64 {
-        let p = if 1.0 < x && x < 2.0 { 1.0 } else { 0.0 };
+        let p;
+        if x < 1.0 {
+            p = -0.5;
+        } else if 1.0 < x && x < 2.0 {
+            p = 1.0
+        } else {
+            p = 0.5
+        }
         let f = 4.0 * PI * 1.0 * p;
-        f * v.fun(x) + (2.0 / 3.0) * v.derivative(x)
+        f * v.fun(x) - (2.0 / 3.0) * v.derivative(x)
     }
 
     fn evaluate(&self, x: f64, w: f64) -> f64 {
-        5.0 + (2.0 / 3.0) * x + w
+        9.0 - (2.0 / 3.0) * x + w
     }
 }
